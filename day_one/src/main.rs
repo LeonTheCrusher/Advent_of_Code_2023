@@ -3,24 +3,22 @@ use std::fs::read_to_string;
 const WORDS: [&str; 9] = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 const NUMS: [&str; 9] = ["1","2","3","4","5","6","7","8","9"];
 fn main() {
-    let sum: u32;
-    
     let content: String = read_to_string("coordinates.txt").unwrap();
 
-    let mut sum = 0;
+    let mut sum: i32 = 0;
 
     // easy
     for line in content.lines() {
         sum += convert(easy(&line.to_string()));
     }
-    println!("{}", sum);
+    println!("Easy: {}", sum);
 
     sum = 0;
     // hard
     for line in content.lines() {
         sum += convert(hard(&line.to_string()));
     }
-    println!("{}", sum);    
+    println!("Hard: {}", sum);    
 }
 
 fn easy(string: &String) -> String {
