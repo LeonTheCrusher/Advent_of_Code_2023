@@ -69,5 +69,3 @@ fn convert(input: String) -> i32 {
     output.push_str(last);
     output.parse().unwrap()
 }
-
-// correct answer is 55429
