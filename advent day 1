@@ -2,13 +2,13 @@ const WORDS: [&str; 9] = ["one", "two", "three", "four", "five", "six", "seven",
 const NUMS: [&str; 9] = ["1","2","3","4","5","6","7","8","9"];
 
 fn main() {
-    let string = String::from("two1nine");
+    let string = String::from("seventhreerxqvgkzqhfxfdhnp628zxtbjklkpdtwo");
     
-    println!("{}", easy(string))
-    println!("{}", hard(string))
+    println!("{}", convert(easy(&string)));
+    println!("{}", convert(hard(&string)));
 }
 
-fn easy(string: String) -> String {
+fn easy(string: &String) -> String {
     let mut new = String::new();
     for c in string.chars() {
         if c.is_ascii_digit() {
@@ -18,11 +18,11 @@ fn easy(string: String) -> String {
     new
 }
 
-fn hard(string: String) -> String {
+fn hard(string: &String) -> String {
     let len = string.len();
     let mut new = String::new();
     for i in 0..len {
-         if string.chars().nth(i).unwrap().is_ascii_digit() {
+        if string.chars().nth(i).unwrap().is_ascii_digit() {
             new.push(string.chars().nth(i).unwrap());
             continue;
         }
@@ -39,4 +39,20 @@ fn hard(string: String) -> String {
         }
     }
     new
+}
+
+fn convert(input: String) -> i32 {
+    let mut output = String::new();
+    let len = input.len();
+    let first = &input[0..1];
+    let last;
+    if len > 1 {
+        last = &input[len-1..len];
+    } else {
+        last = &input[0..1];
+    }
+    
+    output.push_str(first);
+    output.push_str(last);
+    output.parse().unwrap()
 }
