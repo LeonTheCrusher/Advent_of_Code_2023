@@ -1,7 +1,7 @@
 use std::fs::read_to_string;
 
 fn main() {
-    let content: String = read_to_string("games.txt").unwrap();
+    let content: String = read_to_string("test.txt").unwrap();
 
     println!("Easy: {}", easy(&content));
     println!("Hard: {}", hard(&content));
@@ -13,24 +13,19 @@ fn easy(string: &String) -> i32 {
     let mut game = 1;
 
     for line in string.lines() {
-        let parts = line.split(":");
-        let collected_games = parts.collect::<Vec<&str>>();
-
         let mut possible = true;
 
-        let collected_pulls = collected_games[1].split(";");
-        let pulls = collected_pulls.collect::<Vec<&str>>();
+        let game_outcomes = line.split(":").collect::<Vec<&str>>();
+        let rounds = game_outcomes[1].split(";").collect::<Vec<&str>>();
 
-        for i in 0..pulls.len() {
-            let cubes = pulls[i].split(",");
-            let collected_cubes = cubes.collect::<Vec<&str>>();
+        for i in 0..rounds.len() {
+            let cubes_pulled = rounds[i].split(",").collect::<Vec<&str>>();
 
-            for j in 0..collected_cubes.len() {
-                let color = collected_cubes[j].split(" ");
-                let collected_colors = color.collect::<Vec<&str>>();
+            for j in 0..cubes_pulled.len() {
+                let cubes_by_color = cubes_pulled[j].split(" ").collect::<Vec<&str>>();
 
-                let value: u32 = collected_colors[1].parse().unwrap();
-                let cube_color = collected_colors[2];
+                let value: u32 = cubes_by_color[1].parse().unwrap();
+                let cube_color = cubes_by_color[2];
 
                 if cube_color == "red" {
                     if value > 12 {
@@ -62,22 +57,17 @@ fn hard(string: &String) -> i32 {
     for line in string.lines() {
         let (mut red, mut green, mut blue) = (0, 0, 0);
 
-        let parts = line.split(":");
-        let collected_games = parts.collect::<Vec<&str>>();
+        let game_outcomes = line.split(":").collect::<Vec<&str>>();
+        let rounds = game_outcomes[1].split(";").collect::<Vec<&str>>();
 
-        let collected_pulls = collected_games[1].split(";");
-        let pulls = collected_pulls.collect::<Vec<&str>>();
+        for i in 0..rounds.len() {
+            let cubes_pulled = rounds[i].split(",").collect::<Vec<&str>>();
 
-        for i in 0..pulls.len() {
-            let cubes = pulls[i].split(",");
-            let collected_cubes = cubes.collect::<Vec<&str>>();
+            for j in 0..cubes_pulled.len() {
+                let cubes_by_color = cubes_pulled[j].split(" ").collect::<Vec<&str>>();
 
-            for j in 0..collected_cubes.len() {
-                let color = collected_cubes[j].split(" ");
-                let collected_colors = color.collect::<Vec<&str>>();
-
-                let value: i32 = collected_colors[1].parse().unwrap();
-                let cube_color = collected_colors[2];
+                let value: i32 = cubes_by_color[1].parse().unwrap();
+                let cube_color = cubes_by_color[2];
 
                 if cube_color == "red" && value > red {
                     red = value;
