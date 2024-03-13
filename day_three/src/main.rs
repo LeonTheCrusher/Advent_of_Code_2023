@@ -6,7 +6,6 @@ struct Schematic {
     data: Vec<Vec<char>>,
 }
 
-#[derive(Debug)]
 struct Numbers {
     number: i32,
     start_x: i32,
@@ -21,17 +20,19 @@ struct Coordinates {
 }
 
 fn main() {
-    let content: String = read_to_string("schematic.txt").unwrap();
+    let file = "schematic.txt";
 
-    let schematics: Schematic = Schematic {
+    let content: String = open_file(&file.to_string());
+
+    let schematic: Schematic = Schematic {
         data: schematic_to_array(&content),
     };
 
     let mut numbers: Vec<Numbers> = Vec::new();
 
-    let symbol_coords: Vec<(i32, i32)> = extract_coords(&content);
+    let symbol_coords: Vec<Coordinates> = extract_coords(&content);
 
-    let mut number_coords: Vec<(i32, i32)> = Vec::new();
+    let mut number_coords: Vec<Coordinates> = Vec::new();
 
     for i in 0..symbol_coords.len() {
         for j in -1..=1 {
@@ -39,11 +40,14 @@ fn main() {
                 if j == 0 && k == 0 {
                     continue;
                 }
-                if schematics.data[(symbol_coords[i].0 + j) as usize]
-                    [(symbol_coords[i].1 + k) as usize]
+                if schematic.data[(symbol_coords[i].x + j) as usize]
+                    [(symbol_coords[i].y + k) as usize]
                     .is_ascii_digit()
                 {
-                    number_coords.push((symbol_coords[i].0 + j, symbol_coords[i].1 + k));
+                    number_coords.push(Coordinates {
+                        x: symbol_coords[i].x + j,
+                        y: symbol_coords[i].y + k,
+                    });
                 }
             }
         }
@@ -85,9 +89,9 @@ fn main() {
     for i in 0..numbers.len() {
         for j in 0..number_coords.len() {
             if j < number_coords.len() && i < numbers.len() {
-                if number_coords[j].0 == numbers[i].y
-                    && numbers[i].start_x <= number_coords[j].1
-                    && numbers[i].end_x >= number_coords[j].1
+                if number_coords[j].x == numbers[i].y
+                    && numbers[i].start_x <= number_coords[j].y
+                    && numbers[i].end_x >= number_coords[j].y
                     && numbers[i].used == false
                 {
                     sum += numbers[i].number;
@@ -117,18 +121,26 @@ fn schematic_to_array(input: &String) -> Vec<Vec<char>> {
     return schematics;
 }
 
-fn extract_coords(input: &String) -> Vec<(i32, i32)> {
+fn extract_coords(input: &String) -> Vec<Coordinates> {
     let check_symbol = Regex::new(r"[^.\d]").unwrap();
 
-    let mut symbol_coords: Vec<(i32, i32)> = Vec::new();
+    let mut symbol_coords: Vec<Coordinates> = Vec::new();
 
     for (col_idx, line) in input.lines().enumerate() {
         for (row_idx, ch) in line.chars().enumerate() {
             if check_symbol.is_match(&ch.to_string()) {
-                symbol_coords.push((col_idx.try_into().unwrap(), row_idx.try_into().unwrap()));
+                symbol_coords.push(Coordinates {
+                    x: col_idx.try_into().unwrap(),
+                    y: row_idx.try_into().unwrap(),
+                });
             }
         }
     }
 
     return symbol_coords;
+}
+
+fn open_file(path: &str) -> String {
+    let input = read_to_string(path).unwrap();
+    return input;
 }
