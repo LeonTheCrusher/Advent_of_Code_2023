@@ -1,1 +1,1 @@
-C:\Users\Tristan\Documents\Projects\Rust\Advent_of_Code\Advent_of_Code_2023\day_one\target\debug\day_one.exe: C:\Users\Tristan\Documents\Projects\Rust\Advent_of_Code\Advent_of_Code_2023\day_one\src\main.rs
+C:\Users\Tristan\Documents\Projects\Rust\Advent_of_Code\Advent_of_Code_2023\Advent_of_Code_2023\day_one\target\debug\day_one.exe: C:\Users\Tristan\Documents\Projects\Rust\Advent_of_Code\Advent_of_Code_2023\Advent_of_Code_2023\day_one\src\main.rs

@@ -1,7 +1,9 @@
 use std::fs::read_to_string;
 
-const WORDS: [&str; 9] = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-const NUMS: [&str; 9] = ["1","2","3","4","5","6","7","8","9"];
+const WORDS: [&str; 9] = [
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+];
+const NUMS: [&str; 9] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 fn main() {
     let content: String = read_to_string("coordinates.txt").unwrap();
 
@@ -18,7 +20,7 @@ fn main() {
     for line in content.lines() {
         sum += convert(hard(&line.to_string()));
     }
-    println!("Hard: {}", sum);    
+    println!("Hard: {}", sum);
 }
 
 fn easy(string: &String) -> String {
@@ -42,7 +44,7 @@ fn hard(string: &String) -> String {
         for j in 3..=5 {
             if i + j <= len {
                 for k in 0..WORDS.len() {
-                    if &string[i..i+j] == WORDS[k] {
+                    if &string[i..i + j] == WORDS[k] {
                         new.push_str(NUMS[k]);
                     }
                 }
@@ -60,11 +62,11 @@ fn convert(input: String) -> i32 {
     let first = &input[0..1];
     let last;
     if len > 1 {
-        last = &input[len-1..len];
+        last = &input[len - 1..len];
     } else {
         last = &input[0..1];
     }
-    
+
     output.push_str(first);
     output.push_str(last);
     output.parse().unwrap()
